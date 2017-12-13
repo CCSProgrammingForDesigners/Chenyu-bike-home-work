@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Bike Share: Starter Files</title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.js'></script>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <!--  <script src="./stations.js"></script> -->
+  <!-- CDN for jQuery -->
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+  <style>
+    .marker {
+      display: block;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 0;
+    }
+  </style>
+
+  <div id='map'></div>
+  <script>
+
+    // REPLACE THE EMPTY ACCESS TOKEN WITH YOUR OWN TOKEN FROM MAP BOX (For your information: https://www.mapbox.com/mapbox-gl-js/api/)
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FuY2hlbnl1IiwiYSI6ImNqOTY4ZHBubTAyMDYyd21sdGo5azh0c2IifQ.0qlZvxwf4jYZL-H0_eWW9Q';
+
+    // create map from mapbox API
+    var map = new mapboxgl.Map({
+      container: 'map',
+      center: [-74, 40.7128],
+      zoom: 12,
+      style: 'mapbox://styles/mapbox/streets-v9'
+
+    });
+
+
+    //  new Marker(element: HTMLElement?, options: {offset: PointLike})
+    // a set of examples of creating Color Marker , you need to commet it finally
+    /* var el = document.createElement('div')
+     el.className = "greenMarker"
+
+     var maker3 = new mapboxgl.Marker(el)
+       .setLngLat([-73.99392888,40.76727216])
+       .addTo(map);
+
+     var el = document.createElement('div')
+     el.className = "yellowMarker"
+     var marker1 = new mapboxgl.Marker(el)
+       .setLngLat([-74.00666661,40.71911552])
+       .addTo(map);
+
+     var el = document.createElement('div')
+     el.className = "redMarker"
+     var marker = new mapboxgl.Marker(el)
+       .setLngLat([-74.0001654,40.71117416])
+       .addTo(map);*/
+
+
+/*$.ajax({
+      type: 'GET',
+      url: 'https://cdn.rawgit.com/mikefresh/cccb2b7571f6de2a4fd96c6271a1b8a3/raw/7b716366fc8fe27b9ecace1bbdcd4cf8d82980fd/citi.json',
+      dataType: 'JSON',
+      crossDomain: true,
+      error: function () { alert("Error"); },
+      success: function (stationJson) {
+        var sJson = {"stationBeanList": [JSON.stringify(stationJson)]};
+        alert(sJson);
+      }
+
+    });
+
+    var stationList = sJson.stationBeanList; */
+
+/*  $.ajax({
+        type: 'GET',
+        url: 'https://cdn.rawgit.com/mikefresh/cccb2b7571f6de2a4fd96c6271a1b8a3/raw/7b716366fc8fe27b9ecace1bbdcd4cf8d82980fd/citi.json',
+        dataType: 'JSON',
+        //carossDomain: true,
+        error: function () { alert("Error"); },
+        success: function (stationJson) {
+          var beanlist = JSON.stringify(stationJson);
+          alert(beanlist);
+        }
+      }); */
+
+     let dotslistURL = ('https://cdn.rawgit.com/mikefresh/cccb2b7571f6de2a4fd96c6271a1b8a3/raw/7b716366fc8fe27b9ecace1bbdcd4cf8d82980fd/citi.json')
+
+     axios(dotslistURL).then(response =>
+      {let sbl = response.data
+        console.log (sbl.stationBeanList);
+       for(val of sbl.stationBeanList)
+       {
+         console.log(val.availableBikes);
+         console.log(val.latitude);
+         console.log(val.longitude);
+
+         const yellow = "yellowMarker";
+         const green = "greenMarker";
+         const red = "redMarker";
+
+         var el = document.createElement('div');
+         if(val.availableBikes > 9)
+         {
+           el.className = green;
+         }
+
+         if(val.availableBikes >= 3 && val.availableBikes <= 9)
+         {
+           el.className = yellow;
+         }
+
+         if(val.availableBikes <= 2)
+         {
+           el.className = red;
+         }
+
+         var marker1 = new mapboxgl.Marker(el)
+           .setLngLat([val.longitude,val.latitude])
+           .addTo(map);
+       }
+     });
+
+
+
+
+
+
+
+
+
+     //axios(dotslistURL).then(response =>{console.log(response.data)})
+
+      /*axios.get('https://cdn.rawgit.com/mikefresh/cccb2b7571f6de2a4fd96c6271a1b8a3/raw/7b716366fc8fe27b9ecace1bbdcd4cf8d82980fd/citi.json')
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });*/
+    //  var stationList = axios.get(dotslistURL).stationBeanList;
+
+/*
+    //  stationList.forEach(function (val, index)
+      {
+      console.log(val.availableBikes);
+      console.log(val.latitude);
+      console.log(val.longitude);
+
+      const yellow = "yellowMarker";
+      const green = "greenMarker";
+      const red = "redMarker";
+
+      var el = document.createElement('div');
+      if(val.availableBikes > 9)
+      {
+        el.className = green;
+      }
+
+      if(val.availableBikes >= 3 && val.availableBikes <= 9)
+      {
+        el.className = yellow;
+      }
+
+      if(val.availableBikes <= 2)
+      {
+        el.className = red;
+      }
+
+     var marker1 = new mapboxgl.Marker(el)
+       .setLngLat([val.longitude,val.latitude])
+       .addTo(map);
+      }
+*/
+
+  </script>
+
+
+
+
+</body>
+
+</html>

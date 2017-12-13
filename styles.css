@@ -1,0 +1,34 @@
+
+html, body{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#map{
+  width: 100%;
+  height: 100%;
+}
+
+.mapboxgl-marker{
+background-image: url('mapbox-icon.png');
+background-size: cover;
+width: 10px;
+height: 10px;
+border-radius: 50%;
+cursor: pointer;
+}
+
+.redMarker{
+background: red;
+}
+
+.greenMarker{
+  background: green;
+}
+
+/*yello -> yellow*/
+.yellowMarker{
+  background: yellow;
+}
